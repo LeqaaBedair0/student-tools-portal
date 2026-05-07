@@ -1,0 +1,20 @@
+---
+
+- name: Configure all hosts
+  hosts: all
+
+  roles:
+    - common
+
+- name: Configure Linux portal
+  hosts: linux
+  become: true
+
+  roles:
+    - linux_portal
+
+- name: Configure Windows portal
+  hosts: windows
+
+  roles:
+    - windows_portal

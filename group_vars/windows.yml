@@ -1,0 +1,13 @@
+---
+ansible_user: "ansibleuser"
+ansible_password: "Ansible123!"
+ansible_connection: winrm
+ansible_winrm_transport: ntlm
+ansible_port: 5985
+ansible_winrm_server_cert_validation: ignore
+
+
+
+windows_website_name: "StudentPortal"
+windows_website_port: 8080
+windows_portal_root: "C:\\inetpub\\wwwroot\\portal"

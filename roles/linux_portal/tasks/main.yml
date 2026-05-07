@@ -1,0 +1,44 @@
+---
+
+- name: Install nginx
+  apt:
+    name: nginx
+    state: present
+    update_cache: yes
+
+- name: Create portal directory
+  file:
+    path: "{{ linux_portal_root }}"
+    state: directory
+    mode: '0755'
+
+- name: Deploy website page
+  template:
+    src: index.html.j2
+    dest: "{{ linux_portal_root }}/index.html"
+  notify: Restart nginx
+
+- name: Deploy nginx config
+  template:
+    src: nginx.conf.j2
+    dest: /etc/nginx/sites-available/tools_portal
+  notify: Restart nginx
+
+- name: Enable nginx site
+  file:
+    src: /etc/nginx/sites-available/tools_portal
+    dest: /etc/nginx/sites-enabled/tools_portal
+    state: link
+  notify: Restart nginx
+
+- name: Remove default nginx site
+  file:
+    path: /etc/nginx/sites-enabled/default
+    state: absent
+  notify: Restart nginx
+
+- name: Start nginx service
+  service:
+    name: nginx
+    state: started
+    enabled: yes

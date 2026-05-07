@@ -1,0 +1,32 @@
+---
+- name: Create Linux student user
+  user:
+    name: "{{ student_user_name }}"
+    groups: sudo
+    shell: /bin/bash
+    create_home: yes
+  when: ansible_os_family != "Windows"
+
+
+- name: Create Windows student user
+  win_user:
+    name: "{{ student_user_name }}"
+    password: "Student123!"
+    state: present
+    groups:
+      - Users
+  when: ansible_os_family == "Windows"
+
+
+- name: Deploy Linux MOTD
+  template:
+    src: motd.j2
+    dest: /etc/motd
+  when: ansible_os_family != "Windows"
+
+
+- name: Create Windows welcome file
+  win_copy:
+    content: "{{ welcome_message }}"
+    dest: C:\student_welcome.txt
+  when: ansible_os_family == "Windows"

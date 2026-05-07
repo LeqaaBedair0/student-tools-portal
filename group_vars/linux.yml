@@ -1,0 +1,12 @@
+---
+ansible_connection: local
+ansible_become: true
+
+
+linux_portal_root: /var/www/tools_portal
+
+linux_tools:
+  - Git
+  - Docker
+  - Jenkins
+  - Kubernetes

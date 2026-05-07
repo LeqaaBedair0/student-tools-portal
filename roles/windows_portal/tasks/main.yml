@@ -1,0 +1,20 @@
+---
+
+- name: Create IIS Website
+  community.windows.win_iis_website:
+    name: "{{ windows_website_name }}"
+    state: started
+    port: "{{ windows_website_port }}"
+    physical_path: "{{ windows_portal_root }}"
+
+- name: Create website directory
+  win_file:
+    path: "{{ windows_portal_root }}"
+    state: directory
+
+- name: Copy website page
+  win_copy:
+    src: index.html
+    dest: "{{ windows_portal_root }}\\index.html"
+
+
